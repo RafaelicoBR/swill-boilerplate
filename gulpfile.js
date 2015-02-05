@@ -18,7 +18,6 @@ var		   gulp = require('gulp'),
 			del = require('del'),
 		 gulpif = require('gulp-if'),
 	   imagemin = require('gulp-imagemin'),
-		 jshint = require('gulp-jshint'),
 		  merge = require('merge-stream'),
 	 minifyHTML = require('gulp-minify-html'),
 		 notify = require('gulp-notify'),
@@ -28,7 +27,6 @@ var		   gulp = require('gulp'),
 	   sequence = require('run-sequence'),
 	spritesmith = require('gulp.spritesmith'),
 	  svgSprite = require('gulp-svg-sprite'),
-		stylish = require('jshint-stylish'),
 		 stylus = require('gulp-stylus'),
 		 uglify = require('gulp-uglify'),
 		 useref = require('gulp-useref'),
@@ -225,8 +223,6 @@ gulp.task('scripts', function () {
 						])
 						.pipe(plumber())
 						.pipe(concat('main.js'))
-						.pipe(jshint())
-						.pipe(jshint.reporter('jshint-stylish'))
 						.pipe(gulp.dest(paths.scripts.dest))
 						.pipe(rename({suffix: '.min'}))
 						.pipe(uglify(
@@ -241,8 +237,6 @@ gulp.task('scripts', function () {
 							paths.scripts.src + '/_*.js'
 						])
 						.pipe(plumber())
-						.pipe(jshint())
-						.pipe(jshint.reporter('jshint-stylish'))
 						.pipe(rename(function(path){
 							path.basename = path.basename.substring(1)
 						}))
