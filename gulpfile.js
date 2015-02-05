@@ -1,26 +1,11 @@
 /*
 	My Gulp.js Template
-	Version: 3.0.0beta
+	Version: 3.0.0beta Light
 	Author: Tiago Porto - http://www.tiagoporto.com
 	https://github.com/tiagoporto/my-gulp-template
 	Contact: me@tiagoporto.com
 */
 
-/**
-	TODO:
-	- https://www.liquidlight.co.uk/blog/article/creating-svg-sprites-using-gulp-and-sass/
-	- http://nomadev.com.br/passo-a-passo-como-desenvolver-com-atomic-design-mobile-first-e-stylus/
-	- http://nomadev.com.br/passo-a-passo-como-desenvolver-com-atomic-design-mobile-first-e-stylus-parte-2/
-
-	- fonts
-
-	- Name
-	- https://github.com/jh3y/gulp-boilerplate-v2
-	- https://github.com/rmdias/gulp-web-app-workflow
-	- http://www.ryanbensonmedia.com/harvest
-	- https://github.com/tsevdos/Gulp-boilerplate-for-web-designers
-	- Simple version
-**/
 'use strict';
 
 //************************* Load dependencies ****************************//
@@ -42,7 +27,6 @@ var		   gulp = require('gulp'),
 		 rename = require('gulp-rename'),
 	   sequence = require('run-sequence'),
 	spritesmith = require('gulp.spritesmith'),
-		svg2png = require('gulp-svg2png'),
 	  svgSprite = require('gulp-svg-sprite'),
 		stylish = require('jshint-stylish'),
 		 stylus = require('gulp-stylus'),
@@ -54,7 +38,6 @@ var		   gulp = require('gulp'),
 		   src: 'src/',
 		  dest: 'public/',
 		 build: 'build/',
-		 bower: 'bower_components/',
 
 		images: {
 			 src: 'images/',
@@ -167,33 +150,18 @@ gulp.task('svg-sprite', function() {
 				.pipe(gulp.dest(paths.images.dest));
 });
 
-//Convert SVG to PNG
-gulp.task('svg2png', function () {
-	return gulp.src(paths.images.dest + 'svg-sprite.svg')
-				.pipe(svg2png())
-				.pipe(gulp.dest(paths.images.dest));
-});
-
 // Optimize Images
 gulp.task('images', function () {
-	var images =	gulp.src([
-					paths.images.src + '**/*.{bmp,gif,jpg,jpeg,png,svg}',
-					'!' + paths.sprite.bitmap + '**/*',
-					'!' + paths.sprite.svg + '**/*'
-				])
-				.pipe(cache('imagemin'))
-				.pipe(imagemin({optimizationLevel: 5, progressive: true}))
-				.pipe(gulp.dest(paths.images.dest))
-				.pipe(notify({message: 'Images task complete', onLast: true}));
+	gulp.src([
+				paths.images.src + '**/*.{bmp,gif,jpg,jpeg,png,svg}',
+				'!' + paths.sprite.bitmap + '**/*',
+				'!' + paths.sprite.svg + '**/*'
+			])
+			.pipe(cache('imagemin'))
+			.pipe(imagemin({optimizationLevel: 5, progressive: true}))
+			.pipe(gulp.dest(paths.images.dest))
+			.pipe(notify({message: 'Images task complete', onLast: true}));
 
-	var svg = gulp.src([
-					paths.images.src + '**/*.svg',
-					'!' + paths.sprite.svg + '**/*'
-				])
-				.pipe(svg2png())
-				.pipe(gulp.dest(paths.images.dest))
-
-	return merge(images, svg)
 });
 
 // Concatenate Stylus Mixins and Functions
@@ -344,9 +312,6 @@ gulp.task('watch', function () {
 	// Watch svg sprite files
 	gulp.watch(paths.sprite.svg + '**/*.svg', ['svg-sprite', browserSync.reload]);
 
-	// Watch svg sprite generate
-	gulp.watch(paths.images.dest + 'svg-sprite.svg', ['svg2png', browserSync.reload]);
-
 	// Watch .js files
 	gulp.watch([paths.scripts.src + '**/*.js', '!' + paths.scripts.src + 'dependencies/**/*.js'], ['scripts', browserSync.reload]);
 
@@ -363,55 +328,21 @@ gulp.task('watch', function () {
 	gulp.watch(basePaths.dest + '**/*.{html,php}', browserSync.reload);
 });
 
-// Copy Bower dependencies to specific folders
-gulp.task('bower', function() {
-    var frameworks = gulp.src(basePaths.bower + 'angular/angular.js')
-      					.pipe(gulp.dest(paths.scripts.src + 'dependencies/frameworks'))
-
-    var    lib     = gulp.src(basePaths.bower + 'jquery/dist/jquery.js')
-      					.pipe(gulp.dest(paths.scripts.src + 'dependencies/libs'))
-
-    var   plugins  = gulp.src([
-			    			basePaths.bower + 'bootstrap/dist/js/bootstrap.js',
-			    			basePaths.bower + 'outdated-browser/outdatedbrowser/outdatedbrowser.js',
-			    			basePaths.bower + 'retina.js/dist/retina.js'
-			    		])
-	      				.pipe(gulp.dest(paths.scripts.src + 'dependencies/plugins'))
-    var     css    = gulp.src([
-	    					basePaths.bower + 'animate.css/animate.css',
-	    					basePaths.bower + 'bootstrap/dist/css/bootstrap.css',
-	    					basePaths.bower + 'normalize.css/normalize.css',
-	    					basePaths.bower + 'outdated-browser/outdatedbrowser/outdatedbrowser.css'
-	    				])
-	    				.pipe(replace(/@charset "UTF-8";/g, ''))
-	    				.pipe(replace(/@charset 'UTF-8';/g, ''))
-	      				.pipe(gulp.dest(paths.styles.src + 'dependencies'))
-
-    var    font    = gulp.src(basePaths.bower + 'bootstrap/dist/fonts/*')
-						.pipe(gulp.dest(basePaths.dest + 'fonts'));
-
-	var    grid    = gulp.src(basePaths.bower + 'semantic.gs/stylesheets/styl/grid.styl')
-						.pipe(rename({prefix: '_'}))
-						.pipe(gulp.dest(paths.styles.src + 'dependencies'));
-
-    return merge(frameworks, lib, plugins, css, font, grid);
-});
-
 //***************************** Main Tasks *******************************//
 
 // Compile, watch and serve project
 gulp.task('default', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'svg2png', 'styles', 'scripts', 'watch',  cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'styles', 'scripts', 'watch',  cb);
 });
 
 // Compile project
 gulp.task('compile', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'svg2png', 'styles', 'scripts', cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'styles', 'scripts', cb);
 });
 
 // Build Project
 gulp.task('build', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite'], 'svg2png', 'stylus-helpers', 'styles', 'dependence-scripts', 'scripts', 'copy', cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite'], 'stylus-helpers', 'styles', 'dependence-scripts', 'scripts', 'copy', cb);
 });
 
 // Build and serve Builded Project
