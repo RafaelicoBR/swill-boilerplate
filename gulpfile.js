@@ -127,7 +127,7 @@ gulp.task('bitmap-sprite', function () {
 
 // Generate SVG Sprite
 gulp.task('svg-sprite', function() {
-	return gulp.src('src/images/svg-sprite/*.svg')
+	return gulp.src(paths.sprite.svg + '*.svg')
 				.pipe(plumber())
 				.pipe(svgSprite({
 					shape : {
