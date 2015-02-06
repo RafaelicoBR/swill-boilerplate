@@ -36,7 +36,6 @@
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^2.1.0",
     "gulp-minify-html": "^0.1.8",
-    "gulp-notify": "^2.1.0",
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.2",

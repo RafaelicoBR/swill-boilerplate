@@ -20,7 +20,6 @@ var		   gulp = require('gulp'),
 	   imagemin = require('gulp-imagemin'),
 		  merge = require('merge-stream'),
 	 minifyHTML = require('gulp-minify-html'),
-		 notify = require('gulp-notify'),
 		plumber = require('gulp-plumber'),
 		replace = require('gulp-replace'),
 		 rename = require('gulp-rename'),
@@ -117,8 +116,7 @@ gulp.task('bitmap-sprite', function () {
 		.pipe(imagemin())
 		.pipe(gulp.dest(paths.images.dest));
 	sprite.css
-		.pipe(gulp.dest(paths.styles.src + 'helpers'))
-		.pipe(notify({message: 'Sprite task complete'}));
+		.pipe(gulp.dest(paths.styles.src + 'helpers'));
 
 	return sprite;
 });
@@ -157,8 +155,7 @@ gulp.task('images', function () {
 			])
 			.pipe(cache('imagemin'))
 			.pipe(imagemin({optimizationLevel: 5, progressive: true}))
-			.pipe(gulp.dest(paths.images.dest))
-			.pipe(notify({message: 'Images task complete', onLast: true}));
+			.pipe(gulp.dest(paths.images.dest));
 
 });
 
@@ -189,8 +186,7 @@ gulp.task('styles', function () {
 				.pipe(gulp.dest(paths.styles.dest))
 				.pipe(csso())
 				.pipe(rename({suffix: '.min'}))
-				.pipe(gulp.dest(paths.styles.dest))
-				.pipe(notify({message: 'Styles task complete', onLast: true}));
+				.pipe(gulp.dest(paths.styles.dest));
 });
 
 // Concatenate libs, frameworks, plugins Scripts and Minify
