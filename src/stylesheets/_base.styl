@@ -2,15 +2,16 @@
    Main Styles
    ================================================================== */
 
-
 //If you will use bootstrap you can remove this imports
-//======================================//
 
 // Box model reset
-*,
-*:before,
-*:after
-	box-sizing: border-box
+// http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+html
+  box-sizing border-box
+
+*, *:before, *:after
+  box-sizing inherit
+
 
 body
 	body-typography()
