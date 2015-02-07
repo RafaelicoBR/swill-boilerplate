@@ -148,7 +148,7 @@ gulp.task('svg-sprite', function() {
 
 // Optimize Images
 gulp.task('images', function () {
-	gulp.src([
+	return gulp.src([
 				paths.images.src + '**/*.{bmp,gif,jpg,jpeg,png,svg}',
 				'!' + paths.sprite.bitmap + '**/*',
 				'!' + paths.sprite.svg + '**/*'
