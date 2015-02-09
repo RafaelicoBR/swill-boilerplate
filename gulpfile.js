@@ -173,7 +173,7 @@ gulp.task('stylus-helpers', function () {
 });
 
 // Compile and Prefix Stylus Styles
-gulp.task('styles', function () {
+gulp.task('stylus', function () {
 	return	gulp.src([
 					paths.styles.src + '*.styl',
 					'!' + paths.styles.src + '_*.styl',
@@ -300,7 +300,7 @@ gulp.task('watch', function () {
 	gulp.watch(paths.sprite.bitmap + '**/*.{png,jpg,gif}', ['bitmap-sprite', browserSync.reload]);
 
 	// Watch svg sprite files
-	gulp.watch(paths.sprite.svg + '**/*.svg', ['svg-sprite', browserSync.reload]);
+	gulp.watch(paths.sprite.svg + '**/*.svg', ['svg-sprite', 'stylus', browserSync.reload]);
 
 	// Watch .js files
 	gulp.watch([paths.scripts.src + '**/*.js', '!' + paths.scripts.src + 'dependencies/**/*.js'], ['scripts', browserSync.reload]);
@@ -309,7 +309,7 @@ gulp.task('watch', function () {
 	gulp.watch(paths.scripts.src + 'dependencies/**/*.js', ['dependence-scripts', browserSync.reload]);
 
 	// Watch .styl files
-	gulp.watch([paths.styles.src + '**/*.{styl,css}', '!' + paths.styles.src + 'helpers/mixins/*.styl', '!' + paths.styles.src + 'helpers/functions/*.styl'], ['styles', browserSync.reload]);
+	gulp.watch([paths.styles.src + '**/*.{styl,css}', '!' + paths.styles.src + 'helpers/mixins/*.styl', '!' + paths.styles.src + 'helpers/functions/*.styl'], ['stylus', browserSync.reload]);
 
 	// Watch .styl Helpers and Functions files
 	gulp.watch([paths.styles.src + 'helpers/mixins/*.styl', paths.styles.src + 'helpers/functions/*.styl'], ['stylus-helpers']);
@@ -322,17 +322,17 @@ gulp.task('watch', function () {
 
 // Compile, watch and serve project
 gulp.task('default', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'styles', 'scripts', 'watch',  cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'stylus', 'scripts', 'watch',  cb);
 });
 
 // Compile project
 gulp.task('compile', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'styles', 'scripts', cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'stylus', 'scripts', cb);
 });
 
 // Build Project
 gulp.task('build', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite'], 'stylus-helpers', 'styles', 'dependence-scripts', 'scripts', 'copy', cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite'], 'stylus-helpers', 'stylus', 'dependence-scripts', 'scripts', 'copy', cb);
 });
 
 // Build and serve Builded Project
