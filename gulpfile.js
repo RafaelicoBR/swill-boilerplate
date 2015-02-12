@@ -6,23 +6,6 @@
 	Contact: me@tiagoporto.com
 */
 
-/**
-	TODO:
-	- https://www.liquidlight.co.uk/blog/article/creating-svg-sprites-using-gulp-and-sass/
-	- http://nomadev.com.br/passo-a-passo-como-desenvolver-com-atomic-design-mobile-first-e-stylus/
-	- http://nomadev.com.br/passo-a-passo-como-desenvolver-com-atomic-design-mobile-first-e-stylus-parte-2/
-
-	- fonts
-
-	- verificar notify
-
-	- Name
-	- https://github.com/jh3y/gulp-boilerplate-v2
-	- https://github.com/rmdias/gulp-web-app-workflow
-	- http://www.ryanbensonmedia.com/harvest
-	- https://github.com/tsevdos/Gulp-boilerplate-for-web-designers
-	- Simple version
-**/
 'use strict';
 
 //************************* Load dependencies ****************************//
@@ -42,12 +25,12 @@ var		   gulp = require('gulp'),
 		plumber = require('gulp-plumber'),
 		replace = require('gulp-replace'),
 		 rename = require('gulp-rename'),
+		   sass = require('gulp-ruby-sass'),
 	   sequence = require('run-sequence'),
 	spritesmith = require('gulp.spritesmith'),
 		svg2png = require('gulp-svg2png'),
 	  svgSprite = require('gulp-svg-sprite'),
 		stylish = require('jshint-stylish'),
-		 stylus = require('gulp-stylus'),
 		 uglify = require('gulp-uglify'),
 		 useref = require('gulp-useref'),
 
@@ -127,7 +110,7 @@ gulp.task('bitmap-sprite', function () {
 					.pipe(
 						spritesmith({
 							imgName: 'sprite.png',
-							cssName: '_sprite.styl',
+							cssName: '_sprite.sass',
 							imgPath: '../' + basePaths.images.dest + 'sprite.png',
 							padding: 2,
 							algorithm: 'top-down'
@@ -161,7 +144,7 @@ gulp.task('svg-sprite', function() {
 							layout: 'vertical',
 							bust : false,
 							render : {
-								styl : {dest: '../../' + paths.styles.src + 'helpers/_svg-sprite.styl'}
+								scss : {dest: '../../' + paths.styles.src + 'helpers/_svg-sprite.scss'}
 							}
 						}
 					}
@@ -198,35 +181,34 @@ gulp.task('images', function () {
 	return merge(images, svg)
 });
 
-// Concatenate Stylus Mixins and Functions
-gulp.task('stylus-helpers', function () {
-	   var mixins = gulp.src(paths.styles.src + 'helpers/mixins/*.styl')
-						.pipe(concat('_mixins.styl'))
+// Concatenate Sass Mixins and Functions
+gulp.task('sass-helpers', function () {
+	   var mixins = gulp.src(paths.styles.src + 'helpers/mixins/*.scss')
+						.pipe(concat('_mixins.scss'))
 						.pipe(gulp.dest(paths.styles.src + 'helpers'));
 
-	var functions = gulp.src(paths.styles.src + 'helpers/functions/*.styl')
-						.pipe(concat('_functions.styl'))
+	var functions = gulp.src(paths.styles.src + 'helpers/functions/*.scss')
+						.pipe(concat('_functions.scss'))
 						.pipe(gulp.dest(paths.styles.src + 'helpers'));
 
 	return merge(mixins, functions);
 });
 
-// Compile and Prefix Stylus Styles
-gulp.task('stylus', function () {
-	return	gulp.src([
-					paths.styles.src + '*.styl',
-					'!' + paths.styles.src + '_*.styl',
-				])
-				.pipe(plumber())
-				.pipe(stylus({'include css': true}))
+// Compile and Prefix Sass Styles
+gulp.task('sass', function () {
+	return	sass(paths.styles.src + 'styles.scss', {precision: 3, style: 'expanded'})
 				.pipe(autoprefixer({
 					browsers: ['ie >= 8', 'ie_mob >= 10', 'Firefox > 24', 'last 10 Chrome versions', 'safari >= 6', 'opera >= 24', 'ios >= 6',  'android >= 4', 'bb >= 10']
 				}))
+				.on('error', function (err) {
+					console.error('Error', err.message);
+				})
 				.pipe(gulp.dest(paths.styles.dest))
 				.pipe(csso())
 				.pipe(rename({suffix: '.min'}))
 				.pipe(gulp.dest(paths.styles.dest))
 				.pipe(notify({message: 'Styles task complete', onLast: true}));
+
 });
 
 // Concatenate libs, frameworks, plugins Scripts and Minify
@@ -344,7 +326,7 @@ gulp.task('watch', function () {
 	gulp.watch(paths.sprite.bitmap + '**/*.{png,jpg,gif}', ['bitmap-sprite', browserSync.reload]);
 
 	// Watch svg sprite files
-	gulp.watch(paths.sprite.svg + '**/*.svg', ['svg-sprite', 'stylus', browserSync.reload]);
+	gulp.watch(paths.sprite.svg + '**/*.svg', ['svg-sprite', 'sass', browserSync.reload]);
 
 	// Watch svg sprite generate
 	gulp.watch(paths.images.dest + 'svg-sprite.svg', ['svg2png', browserSync.reload]);
@@ -356,10 +338,10 @@ gulp.task('watch', function () {
 	gulp.watch(paths.scripts.src + 'dependencies/**/*.js', ['dependence-scripts', browserSync.reload]);
 
 	// Watch .styl files
-	gulp.watch([paths.styles.src + '**/*.{styl,css}', '!' + paths.styles.src + 'helpers/mixins/*.styl', '!' + paths.styles.src + 'helpers/functions/*.styl'], ['stylus', browserSync.reload]);
+	gulp.watch([paths.styles.src + '**/*.{sass,scss}', '!' + paths.styles.src + 'helpers/mixins/*.{sass,scss}', '!' + paths.styles.src + 'helpers/functions/*.{sass,scss}'], ['sass', browserSync.reload]);
 
 	// Watch .styl Helpers and Functions files
-	gulp.watch([paths.styles.src + 'helpers/mixins/*.styl', paths.styles.src + 'helpers/functions/*.styl'], ['stylus-helpers']);
+	gulp.watch([paths.styles.src + 'helpers/mixins/*.{sass,scss}', paths.styles.src + 'helpers/functions/*.{sass,scss}'], ['sass-helpers']);
 
 	//Watch .html and .php Files
 	gulp.watch(basePaths.dest + '**/*.{html,php}', browserSync.reload);
@@ -387,12 +369,16 @@ gulp.task('bower', function() {
 	    				])
 	    				.pipe(replace(/@charset "UTF-8";/g, ''))
 	    				.pipe(replace(/@charset 'UTF-8';/g, ''))
+	    				.pipe(rename({
+	    					prefix: '_',
+	    					extname: '.scss'
+	    				}))
 	      				.pipe(gulp.dest(paths.styles.src + 'dependencies'))
 
     var    font    = gulp.src(basePaths.bower + 'bootstrap/dist/fonts/*')
 						.pipe(gulp.dest(basePaths.dest + 'fonts'));
 
-	var    grid    = gulp.src(basePaths.bower + 'semantic.gs/stylesheets/styl/grid.styl')
+	var    grid    = gulp.src(basePaths.bower + 'semantic.gs/stylesheets/scss/grid.scss')
 						.pipe(rename({prefix: '_'}))
 						.pipe(gulp.dest(paths.styles.src + 'dependencies'));
 
@@ -403,17 +389,17 @@ gulp.task('bower', function() {
 
 // Compile, watch and serve project
 gulp.task('default', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'svg2png', 'stylus', 'scripts', 'watch',  cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'sass-helpers', 'dependence-scripts'], 'svg2png', 'sass', 'scripts', 'watch',  cb);
 });
 
 // Compile project
 gulp.task('compile', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'svg2png', 'stylus', 'scripts', cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'sass-helpers', 'dependence-scripts'], 'svg2png', 'sass', 'scripts', cb);
 });
 
 // Build Project
 gulp.task('build', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite'], 'svg2png', 'stylus-helpers', 'stylus', 'dependence-scripts', 'scripts', 'copy', cb);
+	sequence(['images', 'bitmap-sprite', 'svg-sprite'], 'svg2png', 'sass-helpers', 'sass', 'dependence-scripts', 'scripts', 'copy', cb);
 });
 
 // Build and serve Builded Project

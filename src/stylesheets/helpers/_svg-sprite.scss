@@ -1,0 +1,38 @@
+%svg-common {
+	background-repeat: no-repeat;
+	background-image: url(../images/svg-sprite.svg);
+}
+
+.svg-ic {
+	background-position: 0 0;
+	@extend %svg-common;
+}
+
+.svg-ic-dims {
+	width: 104px;
+	height: 104px;
+}
+
+.svg-icon,
+.svg-icon\:regular {
+	background-position: 0 50%;
+	@extend %svg-common;
+}
+
+.svg-icon-dims {
+	width: 104px;
+	height: 104px;
+}
+
+.svg-icon:hover,
+.svg-icon\:hover {
+	background-position: 0 100%;
+	@extend %svg-common;
+}
+
+.svg-icon-dims:hover,
+.svg-icon\:hover-dims {
+	width: 104px;
+	height: 104px;
+}
+
