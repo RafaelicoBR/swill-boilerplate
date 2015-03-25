@@ -232,7 +232,7 @@ node_modules/
 bower_components/
 
 #################
-## SASS Cache
+## SASS
 #################
 
 .sass-cache/
@@ -242,3 +242,4 @@ bower_components/
 #################
 
 build/
+*.zip
