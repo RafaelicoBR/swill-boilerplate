@@ -213,12 +213,7 @@ gulp.task('sass', function () {
 
 // Concatenate Scripts dependencies and Minify
 gulp.task('dependence-scripts', function () {
-	return  gulp.src([
-					paths.scripts.src + 'dependencies/plugins/outdatedbrowser.js',
-					paths.scripts.src + 'dependencies/libs/*',
-					paths.scripts.src + 'dependencies/frameworks/*',
-					paths.scripts.src + 'dependencies/plugins/**'
-				])
+	return gulp.src(paths.scripts.src + 'dependencies/*')
 				.pipe(concat('dependencies.js'))
 				.pipe(gulp.dest(paths.scripts.dest))
 				.pipe(rename('dependencies.min.js'))
