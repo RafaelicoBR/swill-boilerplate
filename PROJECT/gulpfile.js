@@ -446,5 +446,14 @@ gulp.task('build', ['clean'], function (cb) {
 
 // Build and serve builded project
 gulp.task('build:serve', ['build'], function (cb) {
-	browserSync(browserSyncConfig);
+	browserSync({
+		notify: false,
+		port: 80,
+		logPrefix: 'BrowserSync',
+		// To use with dinamic files
+		// proxy: 'localhost/swill-boilerplate/public/'
+		server: {
+			baseDir: [basePaths.build]
+		}
+	});
 });
