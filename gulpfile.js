@@ -43,9 +43,9 @@ var		   gulp = require('gulp'),
 
 		images: {
 			 src: 'images/',
-			dest: 'images/' // If change this directory remember to modify
-							// the variable $image-path in
-							// 'src/stylesheets/helpers/_variables.styl'
+			dest: 'img/' // If change this directory remember to modify
+						 // the variable $image-path in
+						 // 'src/stylesheets/helpers/_variables.styl'
 		},
 
 		sprite: {
@@ -72,8 +72,8 @@ var		   gulp = require('gulp'),
 		},
 
 		sprite: {
-			  bitmap: basePaths.src + basePaths.images.src + basePaths.sprite.bitmap,
-			 svg: basePaths.src + basePaths.images.src + basePaths.sprite.svg
+		   bitmap: basePaths.src + basePaths.images.src + basePaths.sprite.bitmap,
+			  svg: basePaths.src + basePaths.images.src + basePaths.sprite.svg
 		},
 
 		scripts: {
@@ -98,7 +98,7 @@ var		   gulp = require('gulp'),
 		// To use with dinamic files
 		// proxy: 'localhost/my-gulp-template/public/'
 		server: {
-			baseDir: [basePaths.src, basePaths.dest]
+			baseDir: [basePaths.src, basePaths.dest, basePaths.bower]
 		}
 	}
 
@@ -161,7 +161,7 @@ gulp.task('svg2png', function () {
 
 // Optimize Images
 gulp.task('images', function () {
-	var images =	gulp.src([
+	var images =    gulp.src([
 					paths.images.src + '**/*.{bmp,gif,jpg,jpeg,png,svg}',
 					'!' + paths.sprite.bitmap + '**/*',
 					'!' + paths.sprite.svg + '**/*'
@@ -196,7 +196,7 @@ gulp.task('sass-helpers', function () {
 
 // Compile and Prefix Sass Styles
 gulp.task('sass', function () {
-	return	sass(paths.styles.src + 'styles.scss', {precision: 3, style: 'expanded'})
+	return  sass(paths.styles.src + 'styles.scss', {precision: 3, style: 'expanded'})
 				.pipe(autoprefixer({
 					browsers: ['ie >= 8', 'ie_mob >= 10', 'Firefox > 24', 'last 10 Chrome versions', 'safari >= 6', 'opera >= 24', 'ios >= 6',  'android >= 4', 'bb >= 10']
 				}))
@@ -211,9 +211,9 @@ gulp.task('sass', function () {
 
 });
 
-// Concatenate libs, frameworks, plugins Scripts and Minify
+// Concatenate Scripts dependencies and Minify
 gulp.task('dependence-scripts', function () {
-	return	gulp.src([
+	return  gulp.src([
 					paths.scripts.src + 'dependencies/plugins/outdatedbrowser.js',
 					paths.scripts.src + 'dependencies/libs/*',
 					paths.scripts.src + 'dependencies/frameworks/*',
@@ -251,7 +251,7 @@ gulp.task('scripts', function () {
 						))
 						.pipe(gulp.dest(paths.scripts.dest));
 
-		   var copy = gulp.src([
+	var      copy   =   gulp.src([
 							paths.scripts.src + 'angular/_*.js',
 							paths.scripts.src + 'jquery/_*.js',
 							paths.scripts.src + '/_*.js'
@@ -293,7 +293,7 @@ gulp.task('copy', function () {
 						.pipe(gulp.dest(basePaths.build));
 
 	// Copy All Other files except HTML, PHP, CSS e JS Files
-	var AllFiles =	gulp.src([
+	var AllFiles =  gulp.src([
 							basePaths.dest + '**/*',
 							'!' + paths.styles.dest + '**/*',
 							'!' + paths.scripts.dest + '**/*',
@@ -312,6 +312,7 @@ gulp.task('clean', function (cb) {
 		paths.scripts.dest,
 		paths.images.dest + '**/*',
 		'!' + paths.images.dest + 'copyright{,**/*{,**/*}}',
+		'!' + paths.images.dest + 'logos{,**/*{,**/*}}'
 		], cb)
 });
 
@@ -337,10 +338,10 @@ gulp.task('watch', function () {
 	// Watch dependencies .js files
 	gulp.watch(paths.scripts.src + 'dependencies/**/*.js', ['dependence-scripts', browserSync.reload]);
 
-	// Watch .styl files
+	// Watch .sass and .scss files
 	gulp.watch([paths.styles.src + '**/*.{sass,scss}', '!' + paths.styles.src + 'helpers/mixins/*.{sass,scss}', '!' + paths.styles.src + 'helpers/functions/*.{sass,scss}'], ['sass', browserSync.reload]);
 
-	// Watch .styl Helpers and Functions files
+	// Watch .sass and .scss Helpers and Functions files
 	gulp.watch([paths.styles.src + 'helpers/mixins/*.{sass,scss}', paths.styles.src + 'helpers/functions/*.{sass,scss}'], ['sass-helpers']);
 
 	//Watch .html and .php Files
@@ -349,40 +350,16 @@ gulp.task('watch', function () {
 
 // Copy Bower dependencies to specific folders
 gulp.task('bower', function() {
-    var frameworks = gulp.src(basePaths.bower + 'angular/angular.js')
-      					.pipe(gulp.dest(paths.scripts.src + 'dependencies/frameworks'))
+	var outdatedBrowserLangs = gulp.src(basePaths.bower + 'outdated-browser/outdatedbrowser/lang/*')
+							.pipe(gulp.dest(basePaths.dest + 'lang/outdated_browser'));
 
-    var    lib     = gulp.src(basePaths.bower + 'jquery/dist/jquery.js')
-      					.pipe(gulp.dest(paths.scripts.src + 'dependencies/libs'))
-
-    var   plugins  = gulp.src([
-			    			basePaths.bower + 'bootstrap/dist/js/bootstrap.js',
-			    			basePaths.bower + 'outdated-browser/outdatedbrowser/outdatedbrowser.js',
-			    			basePaths.bower + 'retina.js/dist/retina.js'
-			    		])
-	      				.pipe(gulp.dest(paths.scripts.src + 'dependencies/plugins'))
-    var     css    = gulp.src([
-	    					basePaths.bower + 'animate.css/animate.css',
-	    					basePaths.bower + 'bootstrap/dist/css/bootstrap.css',
-	    					basePaths.bower + 'normalize.css/normalize.css',
-	    					basePaths.bower + 'outdated-browser/outdatedbrowser/outdatedbrowser.css'
-	    				])
-	    				.pipe(replace(/@charset "UTF-8";/g, ''))
-	    				.pipe(replace(/@charset 'UTF-8';/g, ''))
-	    				.pipe(rename({
-	    					prefix: '_',
-	    					extname: '.scss'
-	    				}))
-	      				.pipe(gulp.dest(paths.styles.src + 'dependencies'))
-
-    var    font    = gulp.src(basePaths.bower + 'bootstrap/dist/fonts/*')
+	var    fonts    = gulp.src([
+							basePaths.bower + 'bootstrap/dist/fonts/*',
+							basePaths.bower + 'font-awesome/fonts/*'
+						])
 						.pipe(gulp.dest(basePaths.dest + 'fonts'));
 
-	var    grid    = gulp.src(basePaths.bower + 'semantic.gs/stylesheets/scss/grid.scss')
-						.pipe(rename({prefix: '_'}))
-						.pipe(gulp.dest(paths.styles.src + 'dependencies'));
-
-    return merge(frameworks, lib, plugins, css, font, grid);
+	return merge(outdatedBrowserLangs, fonts);
 });
 
 //***************************** Main Tasks *******************************//
@@ -391,6 +368,9 @@ gulp.task('bower', function() {
 gulp.task('default', ['clean'], function (cb) {
 	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'sass-helpers', 'dependence-scripts'], 'svg2png', 'sass', 'scripts', 'watch',  cb);
 });
+
+// Serve the project and watch
+gulp.task('serve', ['watch']);
 
 // Compile project
 gulp.task('compile', ['clean'], function (cb) {
