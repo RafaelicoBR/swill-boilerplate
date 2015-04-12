@@ -2,7 +2,7 @@
 /*!
 *	Project Name v1.0.0
 *	Project Home page
-*	Copyright (c) 2015-2015 Author Name (Site)
+*	Copyright (c) initialyear-atualyear Author Name (Site)
 *	Released under the MIT license
 */
 
@@ -18,30 +18,36 @@
 // Typography
 @import "typography/_web-fonts"
 @import "typography/_typography"
+@import "../../bower_components/font-awesome/css/font-awesome.css"
 
 /*! ==================================================================
    Reset and normalize
    ================================================================== */
-@import "dependencies/normalize.css"
+@import "../../bower_components/normalize.css/normalize.css"
 
 /*! ==================================================================
    Grid System
    ================================================================== */
-@import "dependencies/_grid"
+@import "../../bower_components/semantic.gs/stylesheets/styl/grid.styl"
 
 //********************************************************************
 
 /*! ==================================================================
    Dependencies
    ================================================================== */
-@import "dependencies/outdatedbrowser.css"
-// @import "dependencies/bootstrap.css"
-@import "dependencies/animate.css"
+@import "../../bower_components/outdated-browser/outdatedbrowser/outdatedbrowser.css"
+@import "../../bower_components/bootstrap/dist/css/bootstrap.css"
+@import "../../bower_components/animate.css/animate.css"
+@import "dependencies/jquery-logo-downloadtip.css"
+
+@import "helpers/_placeholders"
 
 /*! ==================================================================
-   Placeholders
+   Components
    ================================================================== */
-@import "helpers/_placeholders"
+@import "components/_form"
+@import "components/_button"
+@import "components/_code"
 
 // Main Styles
 @import "_base"

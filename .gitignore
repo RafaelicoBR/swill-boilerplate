@@ -213,13 +213,17 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+#################
+## Cordova
+#################
+platforms/*
+plugins/*
 
 #################
 ## NPM Dependencies
 #################
 
 node_modules/
-
 
 #################
 ## Bower Components
@@ -234,11 +238,7 @@ bower_components/
 .sass-cache/
 
 #################
-## Gulp.js Template
+## Swill boilerplate
 #################
 
 build/
-public/css/
-public/images/*
-!public/images/copyright/
-public/js/
