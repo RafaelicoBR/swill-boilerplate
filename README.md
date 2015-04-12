@@ -2,14 +2,11 @@
 
 ![Swill Boilerplate Logo](https://raw.githubusercontent.com/tiagoporto/swill-boilerplate/stylus-version/src/images/touch/chrome-touch-icon-192x192.png)
 
-Boilerplate Front-End with [Gulp.js](http://gulpjs.com/), all you need to start multi-device development for business proposals.
-
-> If you're like me and prefer stylus use the [stylus-version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-version).
->
-> If you will work with Ionic you use the [mobile-version](https://github.com/tiagoporto/swill-boilerplate/tree/mobile-version).
+Boilerplate Front-End with [Gulp.js](http://gulpjs.com/), all you need to start multi-device development for business proposals, easy to customize.
 
 ## Table of Contents
 
+* [Version](#versions)
 * [Technologies](#technologies)
 * [Includes](#includes)
 * [Features](#features)
@@ -24,6 +21,16 @@ Boilerplate Front-End with [Gulp.js](http://gulpjs.com/), all you need to start 
 	* [SVG Sprite](#svg*sprite)
 * [License](license)
 
+## Versions
+
+> [Sass Version](https://github.com/tiagoporto/swill-boilerplate/tree/sass-version).
+>
+> If you're like me and prefer stylus as pre-processor use the [Stylus Version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-version).
+>
+> If you will work with Ionic you use the [Mobile Version](https://github.com/tiagoporto/swill-boilerplate/tree/mobile-version).
+>
+> [Light version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-version-light)
+
 ## Technologies
 
 Uses the following technologies:
@@ -36,7 +43,7 @@ Uses the following technologies:
 * [JSHint](http://www.jshint.com/)
 * [Node.js](http://nodejs.org/)
 * [NPM](https://www.npmjs.com/)
-* [Sass](http://sass-lang.com/)
+* [Sass](http://sass-lang.com/) or [Stylus](http://learnboost.github.io/stylus/)
 
 ## Includes
 
@@ -59,8 +66,9 @@ Uses the following technologies:
 * Generate Sprites with .svg and a fallback .png
 * Concatenate And Minify Scripts
 * Analyze JavaScript with jshint
-* Compile Sass
-* Functions and mixins to use with Sass
+* Compile Sass or Stylus
+* Catch the stylus error and direct shows on the page, as in sass.
+* Functions and mixins to use with Sass or Stylus
 * Notify when tasks are complete
 * Monitors changes in the files and reload browser with [BrowserSync](http://www.browsersync.io/)
 * Configs from [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate)
@@ -179,27 +187,27 @@ Uses the following technologies:
 │            │  │  │
 │            │  │  └ //
 │            │  │
-│            │  ├─ _functions.styl
+│            │  ├─ _functions.{sass, styl}
 │            │  │
-│            │  ├─ _helpers.styl
+│            │  ├─ _helpers.{sass, styl}
 │            │  │
-│            │  ├─ _mixins.styl
+│            │  ├─ _mixins.{sass, styl}
 │            │  │
-│            │  ├─ _placeholders.styl
+│            │  ├─ _placeholders.{sass, styl}
 │            │  │
-│            │  ├─ _sprite.styl
+│            │  ├─ _sprite.{sass, styl}
 │            │  │
-│            │  ├─ _svg-sprite.styl
+│            │  ├─ _svg-sprite.{sass, styl}
 │            │  │
-│            │  └─ _variables.styl
+│            │  └─ _variables.{sass, styl}
 │            │
 │            ├─ media_queries
 │            │
 │            ├─ typography
 │            │
-│            ├─ _base.styl // Main Styles
+│            ├─ _base.{sass, styl} // Main Styles
 │            │
-│            └─ styles.scss // Base Sass file with imports
+│            └─ styles.{sass, styl} // Base file with imports
 │
 ├─ .editorconfig // Settings of editorconfig plugin
 ├─ .jshintrc // JSHint configuration file
@@ -234,6 +242,16 @@ Uses the following technologies:
 	$ sudo npm install gulp -g
 	```
 
+1. Install [Bower](http://bower.io/)
+
+	* Execute
+
+	```sh
+	$ npm install -g bower
+	```
+
+> Necessary just to sass-version and mobile-version.
+
 1. In Windows is necessary install [Ruby](https://www.ruby-lang.org/)
 
 	* Download and install [Ruby](http://rubyinstaller.org/).
@@ -246,13 +264,6 @@ Uses the following technologies:
 	$ gem install sass
 	```
 
-1. Install [Bower](http://bower.io/)
-
-	* Execute
-
-	```sh
-	$ npm install -g bower
-	```
 
 ## Usage
 
@@ -365,11 +376,11 @@ proxy: "localhost/swill-boilerplate/public/"
 
 This template uses [gulp.spritesmith](https://www.npmjs.org/package/gulp.spritesmith) to generate sprites.
 
-When the sprite is generated, a file `_sprite.sass` is created with four mixins and the variables of the parameters of the images, like height and width (the names of the variables is same of the original file before the compilation).
+When the sprite is generated, a file `_sprite.styl` or `_sprite.sass` is created with four mixins and the variables of the parameters of the images, like height and width (the names of the variables is same of the original file before the compilation).
 
-**`_sprite.sass` example**
+**`_sprite.styl` example**
 
-```sass
+```styl
 
 $left-arrow-x: 0px;
 $left-arrow-y: 0px;
@@ -412,7 +423,7 @@ Just use the mixins with the variables as parameters.
 
 **Example**
 
-```sass
+```styl
 #arrow
 	sprite($left-arrow)
 
