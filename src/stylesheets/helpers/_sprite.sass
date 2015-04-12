@@ -20,7 +20,7 @@ $left-arrow-height: 32px
 $left-arrow-total-width: 32px
 $left-arrow-total-height: 66px
 $left-arrow-image: '../img/sprite.png'
-$left-arrow: 0px 0px 0px 0px 32px 32px 32px 66px '../img/sprite.png' 'left-arrow'
+$left-arrow: (0px, 0px, 0px, 0px, 32px, 32px, 32px, 66px, '../img/sprite.png', 'left-arrow', )
 $right-arrow-name: 'right-arrow'
 $right-arrow-x: 0px
 $right-arrow-y: 34px
@@ -31,12 +31,12 @@ $right-arrow-height: 32px
 $right-arrow-total-width: 32px
 $right-arrow-total-height: 66px
 $right-arrow-image: '../img/sprite.png'
-$right-arrow: 0px 34px 0px -34px 32px 32px 32px 66px '../img/sprite.png' 'right-arrow'
+$right-arrow: (0px, 34px, 0px, -34px, 32px, 32px, 32px, 66px, '../img/sprite.png', 'right-arrow', )
 $spritesheet-width: 32px
 $spritesheet-height: 66px
 $spritesheet-image: '../img/sprite.png'
-$spritesheet-sprites: $left-arrow $right-arrow
-$spritesheet: 32px 66px '../img/sprite.png' $spritesheet-sprites
+$spritesheet-sprites: ($left-arrow, $right-arrow, )
+$spritesheet: (32px, 66px, '../img/sprite.png', $spritesheet-sprites, )
 
 /*
   The provided mixins are intended to be used with the array-like variables

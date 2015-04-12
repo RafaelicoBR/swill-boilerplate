@@ -1,63 +1,74 @@
 <!doctype html>
 <html lang="">
-  <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Title</title>
-	<meta name="
-	description" content="">
-	<meta name="keywords" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Title</title>
+		<meta name="
+		description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- Add to homescreen for Chrome on Android -->
-	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+		<link rel="icon" type="image/png" href="img/logos/logo.png" data-title="Screen Bitmap file (.png)" />
+		<link rel="icon" type="image/png" href="img/logos/logo-monochrome.png" data-title="Screen Monochrome Bitmap file (.png)" />
+		<link rel="icon" type="image/svg+xml" href="img/logos/logo.svg" data-title="Screen Vector file (.svg)" />
+		<link rel="icon" type="image/svg+xml" href="img/logos/logo-monochrome.svg" data-title="Screen Monochrome Vector file (.svg)" />
+		<link rel="icon" type="image/eps" href="img/logos/logo.eps" data-title="Print file (.eps)" />
+		<link rel="icon" type="image/eps" href="img/logos/logo-monochrome.eps" data-title="Print Monochrome file (.eps)" />
 
-	<!-- Add to homescreen for Safari on iOS -->
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-title" content="">
-	<link rel="apple-touch-icon" href="apple-touch-icon.png">
+		<!-- Add to homescreen for Chrome on Android -->
+		<meta name="mobile-web-app-capable" content="yes">
+		<link rel="icon" sizes="192x192" href="img/touch/chrome-touch-icon-192x192.png">
 
-	<!-- Tile icon for Win8 -->
-	<meta name="application-name" content=""/>
-	<meta name="msapplication-TileColor" content=""/>
-	<meta name="msapplication-square70x70logo" content="images/touch/tile.png"/>
-	<meta name="msapplication-square150x150logo" content="images/touch/tile.png"/>
-	<meta name="msapplication-wide310x150logo" content="images/touch/tile-wide.png"/>
-	<meta name="msapplication-square310x310logo" content="images/touch/tile.png"/>
+		<!-- Add to homescreen for Safari on iOS -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-title" content="">
+		<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-	<!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
-	<!--
-	<link rel="canonical" href="http://www.example.com/">
-	-->
+		<!-- Tile icon for Win8 -->
+		<meta name="application-name" content=""/>
+		<meta name="msapplication-TileColor" content=""/>
+		<meta name="msapplication-square70x70logo" content="img/touch/tile.png"/>
+		<meta name="msapplication-square150x150logo" content="img/touch/tile.png"/>
+		<meta name="msapplication-wide310x150logo" content="img/touch/tile-wide.png"/>
+		<meta name="msapplication-square310x310logo" content="img/touch/tile.png"/>
 
-	<!-- build:css css/styles.min.css -->
-	<link rel="stylesheet" href="css/styles.css">
-	<!-- endbuild -->
-  </head>
-  <body>
-	<!-- ============= Outdated Browser ============= -->
-	<div id="outdated"></div>
-	<!-- ============================================ -->
+		<!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+		<!--
+		<link rel="canonical" href="http://www.example.com/">
+		-->
 
-	<h1><img id="logo" src="img/logos/logo.svg" alt="Site logo">Title</h1>
+		<!-- build:css css/styles.min.css -->
+		<link rel="stylesheet" href="normalize.css/normalize.css">
+		<link rel="stylesheet" href="outdated-browser/outdatedbrowser/outdatedbrowser.css">
+		<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
+		<link rel="stylesheet" href="animate.css/animate.css">
+		<link rel="stylesheet" href="css/styles.css">
+		<!-- endbuild -->
+	</head>
+	<body>
+		<!-- ============= Outdated Browser ============= -->
+		<div id="outdated"></div>
+		<!-- ============================================ -->
 
-	<div ng-app>
-	  <!-- AngularJS App -->
-	</div>
+		<h1><img id="logo" src="img/logos/logo.svg" alt="Site logo">Title</h1>
+
+		<div ng-app>
+		  <!-- AngularJS App -->
+		</div>
 
 
 
-	<!-- build:js js/scripts.min.js -->
-	<script src="angular/angular.js"></script>
-	<script src="angular-route/angular-route.js"></script>
-	<script src="jquery/dist/jquery.js"></script>
-	<script src="bootstrap/dist/js/bootstrap.js"></script>
-	<script src="outdated-browser/outdatedbrowser/outdatedbrowser.js"></script>
-	<script src="retina.js/dist/retina.js"></script>
-	<script src="js/dependencies.js"></script>
-	<script src="js/main.js"></script>
-	<!-- endbuild -->
-  </body>
+		<!-- build:js js/scripts.min.js -->
+		<script src="angular/angular.js"></script>
+		<script src="angular-route/angular-route.js"></script>
+		<script src="jquery/dist/jquery.js"></script>
+		<script src="bootstrap/dist/js/bootstrap.js"></script>
+		<script src="outdated-browser/outdatedbrowser/outdatedbrowser.js"></script>
+		<script src="retina.js/dist/retina.js"></script>
+		<script src="js/dependencies.js"></script>
+		<script src="js/main.js"></script>
+		<!-- endbuild -->
+	</body>
 </html>

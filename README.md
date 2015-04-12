@@ -4,7 +4,9 @@
 
 Boilerplate Front-End with [Gulp.js](http://gulpjs.com/), all you need to start multi-device development for business proposals.
 
-> If you're like me and prefer stylus use this [version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-version).
+> If you're like me and prefer stylus use the [stylus-version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-version).
+>
+> If you will work with Ionic you use the [mobile-version](https://github.com/tiagoporto/swill-boilerplate/tree/mobile-version).
 
 ## Table of Contents
 
