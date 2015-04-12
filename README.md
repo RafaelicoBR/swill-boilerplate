@@ -17,6 +17,7 @@ Boilerplate Front-End with [Gulp.js](http://gulpjs.com/), all you need to start 
 * [Installing Dependencies](#installing-dependencies)
 * [Usage](#usage)
 	* [Tasks](#tasks)
+	* [Peculiarities](#peculiarities)
 	* [AngulaJS](#angularjs)
 	* [BrowserSync](#browsersync)
 	* [Bitmap Sprite](#sprite)
@@ -146,29 +147,21 @@ Uses the following technologies:
 │       │  │
 │       │  ├─ angular // Development with AngularJS
 │       │  │
-│       │  ├─ dependencies
-│       │  │  │
-│       │  │  ├─ frameworks
-│       │  │  │
-│       │  │  ├─ libs
-│       │  │  │
-│       │  │  ├─ modules
-│       │  │  │
-│       │  │  └─ plugins
+│       │  ├─ dependencies // External plugins
 │       │  │
 │       │  ├─ jquery
 │       │  │  │
-│       │  │  ├─ onread // Open and close elements of Jquery
+│       │  │  ├─ onread // Open and close on read of Jquery
 │       │  │  │
 │       │  │  └─ // Development with JQuery
 │       │  │
 │       │  ├─ settings
 │       │  │  │
-│       │  │  ├─ google_analytics.js // Settings to Analytics
+│       │  │  ├─ call_plugins.js // Call the plugins after page load
 │       │  │  │
-│       │  │  └─ outdatedbrowser.js // Settings to Browser Outdated
+│       │  │  └─ google_analytics.js // Settings to Analytics
 │       │  │
-│       │  └─ // Development with Pure Javascript, the files
+│       │  └─ // Development with Pure Javascript
 │       │
 │       └─ stylesheets
 │            │
@@ -306,27 +299,52 @@ $ gulp
 
 ### Tasks
 
-Execute to build the project
+**Default Task** - compile, watch and serve project.
 
 ```sh
-$ gulp gulp
+$ gulp
 ```
+
+**Compile Task** - just compile project.
 
 ```sh
 $ gulp compile
 ```
 
+**Serve Task** - serve the project and watch.
+
+```sh
+$ gulp serve
+```
+
+**Build Task** - build project.
+
 ```sh
 $ gulp build
 ```
+
+**Build:serve task** - build and serve builded project.
 
 ```sh
 $ gulp build:serve
 ```
 
+### Peculiarities
+
+* Js Files prefixed with `_` won't be concatenated.
+
+* The folder `public/img` is clean when the tasks is run, and the images are compressed from `src/images`, but if you work with images with copyright you dont use the compress on this images
+
+* The folder `public/img` is cleared when the task is run, and the images are compressed of ` src/images`, but if you work with copyrighted images you should not use compression, because it removes the data from files. You can place images direct in the `public / src`, they will not be deleted.
+
+> If for some other reason you want to use other folders directly in the `public/img`, add the folder in the task ` clean` on `gulpfile.js`. And it's not deleted.
+
+
+
 ### AngulaJS
 
 To use Angular go to the `gulpfile.js` uncomment the lines with `mangle: false`.
+
 
 ### BrowserSync
 
@@ -418,6 +436,7 @@ Just use the mixins with the variables as parameters.
 
 ### Svg Sprite
 
+To-do
 
 ## License
 
