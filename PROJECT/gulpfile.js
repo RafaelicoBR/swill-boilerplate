@@ -296,7 +296,7 @@ gulp.task('scripts', function () {
 
 // Copy Files to Build
 gulp.task('copy', function () {
-	var assets   =  useref.assets();
+	var assets   =  useref.assets({searchPath: [basePaths.bower, basePaths.dest]});
 
 	// Minify and Copy HTML
 	var  html    =   gulp.src(basePaths.dest + '**/*.{html,php}')
