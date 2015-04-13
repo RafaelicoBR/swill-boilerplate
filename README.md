@@ -23,13 +23,15 @@ Boilerplate Front-End with [Gulp.js](http://gulpjs.com/), all you need to start 
 
 ## Versions
 
-> [Sass Version](https://github.com/tiagoporto/swill-boilerplate/tree/sass-version).
->
-> If you're like me and prefer stylus as pre-processor use the [Stylus Version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-version).
->
-> If you will work with Ionic you use the [Mobile Version](https://github.com/tiagoporto/swill-boilerplate/tree/mobile-version).
->
-> [Light version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-version-light)
+* [Sass Version](https://github.com/tiagoporto/swill-boilerplate/tree/sass-version).
+
+* If you're like me and prefer stylus as pre-processor use the [Stylus Version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-version).
+
+* If you will work with Ionic you use the [Mobile Version](https://github.com/tiagoporto/swill-boilerplate/tree/mobile-version).
+
+* [Light version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-light-version).
+
+* [Simple Version](https://github.com/tiagoporto/swill-boilerplate/tree/stylus-simple-version).
 
 ## Technologies
 
