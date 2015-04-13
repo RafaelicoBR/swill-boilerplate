@@ -414,7 +414,7 @@ gulp.task('build', ['clean'], function (cb) {
 	sequence(['images', 'bitmap-sprite', 'svg-sprite'], 'stylus-helpers', 'stylus', 'dependence-scripts', 'scripts', 'copy', cb);
 });
 
-// Build and serve Builded Project
+// Build and serve builded project
 gulp.task('build:serve', ['build'], function (cb) {
 	browserSync({
 		notify: false,
