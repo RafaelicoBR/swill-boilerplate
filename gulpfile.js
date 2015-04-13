@@ -103,66 +103,6 @@ var		   gulp = require('gulp'),
 
 //******************************** Tasks *********************************//
 
-// Generate Bitmap Sprite
-gulp.task('bitmap-sprite', function () {
-	var sprite = gulp.src(paths.sprite.bitmap + '**/*.png')
-					.pipe(
-						spritesmith({
-							imgName: 'sprite.png',
-							cssName: '_sprite.styl',
-							imgPath: '../' + basePaths.images.dest + 'sprite.png',
-							padding: 2,
-							algorithm: 'top-down'
-						})
-					);
-
-	sprite.img
-		.pipe(imagemin())
-		.pipe(gulp.dest(paths.images.dest));
-	sprite.css
-		.pipe(gulp.dest(paths.styles.src + 'helpers'));
-
-	return sprite;
-});
-
-// Generate SVG Sprite
-gulp.task('svg-sprite', function() {
-	return gulp.src(paths.sprite.svg + '*.svg')
-				.pipe(plumber())
-				.pipe(svgSprite({
-					shape : {
-						spacing : {
-							padding : 2
-						}
-					},
-					mode : {
-						css : {
-							dest : './',
-							sprite: '../' + basePaths.images. dest + 'svg-sprite.svg',
-							layout: 'vertical',
-							bust : false,
-							render : {
-								styl : {dest: '../../' + paths.styles.src + 'helpers/_svg-sprite.styl'}
-							}
-						}
-					}
-				}))
-				.pipe(gulp.dest(paths.images.dest));
-});
-
-// Optimize Images
-gulp.task('images', function () {
-	return gulp.src([
-				paths.images.src + '**/*.{bmp,gif,jpg,jpeg,png,svg}',
-				'!' + paths.sprite.bitmap + '**/*',
-				'!' + paths.sprite.svg + '**/*'
-			])
-			.pipe(newer(paths.images.dest))
-			.pipe(imagemin({optimizationLevel: 5, progressive: true}))
-			.pipe(gulp.dest(paths.images.dest));
-
-});
-
 // Concatenate Stylus Mixins and Functions
 gulp.task('stylus-helpers', function () {
 	   var mixins = gulp.src(paths.styles.src + 'helpers/mixins/*.styl')
@@ -304,40 +244,13 @@ gulp.task('clean', function (cb) {
 	del([
 		basePaths.build,
 		paths.styles.dest,
-		paths.scripts.dest,
-		paths.images.dest + '**/*',
-		// Add here the folders that will not be deleted in public/img
-		'!' + paths.images.dest + 'copyright{,**/*{,**/*}}',
-		'!' + paths.images.dest + 'logos{,**/*{,**/*}}'
+		paths.scripts.dest
 		], cb)
 });
 
 // Watch
 gulp.task('watch', function () {
 	browserSync(browserSyncConfig);
-
-	// Watch .bmp .gif .jpg .jpeg .png and .svg files
-	gulp.watch([
-			paths.images.src + '**/*.{png,jpg,gif,svg}',
-			'!' + paths.sprite.bitmap + '**/*',
-			'!' + paths.sprite.svg + '**/*'],
-
-			['images', browserSync.reload]
-		);
-
-	// Watch bitmap sprite files
-	gulp.watch(
-			paths.sprite.bitmap + '**/*.{png,jpg,gif}',
-
-			['bitmap-sprite', browserSync.reload]
-		);
-
-	// Watch svg sprite files
-	gulp.watch(
-			paths.sprite.svg + '**/*.svg',
-
-			['svg-sprite', 'stylus', browserSync.reload]
-		);
 
 	// Watch .js files
 	gulp.watch([
@@ -398,7 +311,7 @@ gulp.task('bower', function() {
 
 // Compile, watch and serve project
 gulp.task('default', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'stylus', 'scripts', 'watch',  cb);
+	sequence(['stylus-helpers', 'dependence-scripts'], 'stylus', 'scripts', 'watch',  cb);
 });
 
 // Serve the project and watch
@@ -406,12 +319,12 @@ gulp.task('serve', ['watch']);
 
 // Compile project
 gulp.task('compile', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite', 'stylus-helpers', 'dependence-scripts'], 'stylus', 'scripts', cb);
+	sequence(['stylus-helpers', 'dependence-scripts'], 'stylus', 'scripts', cb);
 });
 
 // Build Project
 gulp.task('build', ['clean'], function (cb) {
-	sequence(['images', 'bitmap-sprite', 'svg-sprite'], 'stylus-helpers', 'stylus', 'dependence-scripts', 'scripts', 'copy', cb);
+	sequence('stylus-helpers', 'stylus', 'dependence-scripts', 'scripts', 'copy', cb);
 });
 
 // Build and serve Builded Project
