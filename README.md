@@ -344,12 +344,23 @@ $ gulp build:serve
 
 * Js Files prefixed with `_` won't be concatenated.
 
-* The folder `public/img` is clean when the tasks is run, and the images are compressed from `src/images`, but if you work with images with copyright you dont use the compress on this images
+* The folder `public/img` is clean when the task is run, and the images are compressed and come from ` src/images`, but if you work with copyrighted images you should not use compression, because it removes the metadatas from files. You can place images direct in the `public/src/copyright`, they won't be deleted.
 
-* The folder `public/img` is cleared when the task is run, and the images are compressed of ` src/images`, but if you work with copyrighted images you should not use compression, because it removes the data from files. You can place images direct in the `public / src`, they will not be deleted.
+> If for some other reason you want to use other folders directly in the `public/img`, add the folder in the task ` clean` on `gulpfile.js`, and it won't be deleted.
 
-> If for some other reason you want to use other folders directly in the `public/img`, add the folder in the task ` clean` on `gulpfile.js`. And it's not deleted.
+* To use bower components just link the file on the HTML inside of the especifics comments. This way all the files will be concatenated and minified to build.
 
+**Example**
+
+```html
+	<!-- build:js js/scripts.min.js -->
+	<script src="angular/angular.js"></script>
+	<script src="angular-route/angular-route.js"></script>
+	<script src="js/main.js"></script>
+	<!-- endbuild -->
+```
+
+*The link to file start inside of the `bower_components`, the application won't work out of the serve.*
 
 
 ### AngulaJS
@@ -374,11 +385,11 @@ proxy: "localhost/swill-boilerplate/public/"
 
 ### Bitmap Sprite
 
-This template uses [gulp.spritesmith](https://www.npmjs.org/package/gulp.spritesmith) to generate sprites.
+This boilerplate uses [gulp.spritesmith](https://www.npmjs.org/package/gulp.spritesmith) to generate bitmap sprites.
 
-When the sprite is generated, a file `_sprite.styl` or `_sprite.sass` is created with four mixins and the variables of the parameters of the images, like height and width (the names of the variables is same of the original file before the compilation).
+When the sprite is generated, a file `_sprite.styl` or `_sprite.sass` is created with four mixins and the variables of the parameters of the images, like height and width (the names of the variables is the same of the original filename before the compilation).
 
-**`_sprite.styl` example**
+**Sprite file example**
 
 ```styl
 
@@ -446,6 +457,8 @@ Just use the mixins with the variables as parameters.
 ```
 
 ### Svg Sprite
+
+To generate SVG sprites is used [gulp-svg-sprite](https://github.com/jkphl/gulp-svg-sprite) as fallback all the SVG sprites are converted to .png with [gulp-svg2png](https://github.com/akoenig/gulp-svg2png)
 
 To-do
 
